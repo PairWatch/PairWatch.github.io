@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PairWatch — Polymarket × Kalshi, compared properly</title>
+<meta name="description" content="PairWatch hand-verifies same-question pairs across Polymarket and Kalshi, compares settlement rules line by line, and alerts on net spreads of 0.5%+ after fees at 500 shares. Free on Telegram. Read-only. Not financial advice.">
+<style>
+  :root{
+    --bg:#0b0e13; --panel:#12161f; --panel2:#171c28; --line:#232a3a;
+    --text:#e8ecf3; --muted:#9aa5b8; --accent:#4da3ff; --accent2:#2dd4a7;
+    --warn:#ffb454;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:var(--bg); color:var(--text); font:16px/1.65 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:960px; margin:0 auto; padding:0 20px}
+  header{border-bottom:1px solid var(--line); }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 0}
+  .brand{font-size:22px; font-weight:700; letter-spacing:.2px}
+  .brand span{color:var(--accent2)}
+  .nav .links a{color:var(--muted); margin-left:18px; font-size:14px}
+  .hero{padding:64px 0 40px; text-align:left}
+  .hero h1{font-size:42px; line-height:1.15; font-weight:800; max-width:720px}
+  .hero h1 em{font-style:normal; color:var(--accent2)}
+  .hero p{color:var(--muted); font-size:18px; max-width:680px; margin-top:18px}
+  .cta{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap}
+  .btn{display:inline-block; padding:12px 22px; border-radius:10px; font-weight:600; border:1px solid var(--line)}
+  .btn.primary{background:var(--accent); color:#06101f; border-color:var(--accent)}
+  .btn.primary:hover{text-decoration:none; filter:brightness(1.08)}
+  .btn.ghost{color:var(--text); background:var(--panel)}
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:36px 0 8px}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px}
+  .stat b{display:block; font-size:26px}
+  .stat span{color:var(--muted); font-size:13px}
+  section{padding:40px 0 8px}
+  h2{font-size:26px; margin-bottom:8px}
+  .sub{color:var(--muted); margin-bottom:20px; max-width:720px}
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px}
+  .card h3{font-size:17px; margin-bottom:8px}
+  .card p{color:var(--muted); font-size:14.5px}
+  .card .n{color:var(--accent); font-weight:800; font-size:13px; letter-spacing:1px}
+  table{width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  th,td{padding:10px 14px; text-align:left; font-size:14.5px; border-bottom:1px solid var(--line)}
+  th{color:var(--muted); font-weight:600; background:var(--panel2)}
+  tr:last-child td{border-bottom:none}
+  td.net{color:var(--accent2); font-weight:700; white-space:nowrap}
+  td.time{color:var(--muted); white-space:nowrap}
+  .trap{border-left:3px solid var(--warn)}
+  ul.rules{list-style:none}
+  ul.rules li{padding:8px 0 8px 26px; position:relative; color:var(--muted)}
+  ul.rules li::before{content:"✓"; position:absolute; left:0; color:var(--accent2); font-weight:700}
+  ul.rules li b{color:var(--text)}
+  .faq{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:6px 20px}
+  .faq div{padding:14px 0; border-bottom:1px solid var(--line)}
+  .faq div:last-child{border-bottom:none}
+  .faq h3{font-size:16px; margin-bottom:4px}
+  .faq p{color:var(--muted); font-size:14.5px}
+  footer{border-top:1px solid var(--line); margin-top:48px; padding:26px 0 40px; color:var(--muted); font-size:13.5px}
+  footer .row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+  @media (max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .cards{grid-template-columns:1fr}
+    .hero h1{font-size:32px}
+    th:nth-child(1),td:nth-child(1){display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand">Pair<span>Watch</span></div>
+    <div class="links">
+      <a href="#how">How it works</a>
+      <a href="#record">Track record</a>
+      <a href="#traps">Trap cases</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>The same question on two venues <em>isn't always the same bet.</em></h1>
+    <p>PairWatch matches events across <b>Polymarket</b> and <b>Kalshi</b>, verifies the settlement rules line by line, and sends a free alert only when a real, fillable net spread of <b>0.5% or more</b> survives both venues' fees.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://t.me/+XsNiI6ZGZI1iM2Ux">Get free alerts on Telegram</a>
+      <a class="btn ghost" href="https://x.com/PairWatchAlerts">Follow @PairWatchAlerts</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>26</b><span>hand-verified pairs</span></div>
+      <div class="stat"><b>11</b><span>lookalikes checked &amp; rejected</span></div>
+      <div class="stat"><b>10</b><span>timestamped alerts, first 2 days</span></div>
+      <div class="stat"><b>0.5%</b><span>minimum net spread, after fees, at 500 shares</span></div>
+    </div>
+  </div>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="sub">Most cross-venue "arbitrage" is a mirage: different settlement rules, different granularity, or books too thin to fill. PairWatch is built to reject all three.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="n">STEP 1</div>
+        <h3>Verify it's the same question</h3>
+        <p>Every pair is matched and then verified by hand. Near-identical markets that differ in payoff structure, measurement, or timing are rejected — and the rejection is documented, not hidden.</p>
+      </div>
+      <div class="card">
+        <div class="n">STEP 2</div>
+        <h3>Compare the rules, line by line</h3>
+        <p>Rounding clauses, cancellation rules, resolution sources, close times. If the two venues can settle the "same" event differently, the alert says so — before you trade, not after.</p>
+      </div>
+      <div class="card">
+        <div class="n">STEP 3</div>
+        <h3>Alert only on fillable edge</h3>
+        <p>Books on both venues are walked at 500 shares. An alert fires only if the net spread is ≥ 0.5% after both venues' fees and both legs fully fill. Checks run about every 15 minutes; maximum 5 alerts a day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="record">
+    <h2>Track record</h2>
+    <p class="sub">Every alert is timestamped in the Telegram channel at the moment it fires — nothing is back-posted or edited. First two days, complete:</p>
+    <table>
+      <tr><th>Date</th><th>Time (CT)</th><th>Market</th><th>Net spread</th></tr>
+      <tr><td>Nov 13, 2026</td><td class="time">08:33</td><td>Fed decision Mar 2027 — hike &gt;25bp</td><td class="net">+1.0%</td></tr>
+      <tr><td>Nov 13, 2026</td><td class="time">12:20</td><td>Fed decision Dec 2026 — no change</td><td class="net">+0.7%</td></tr>
+      <tr><td>Nov 13, 2026</td><td class="time">14:05</td><td>Fed decision Dec 2026 — hike &gt;25bp</td><td class="net">+0.5%</td></tr>
+      <tr><td>Nov 13, 2026</td><td class="time">18:20</td><td>Fed decision Mar 2027 — hike &gt;25bp</td><td class="net">+0.6%</td></tr>
+      <tr><td>Nov 13, 2026</td><td class="time">20:20</td><td>Fed decision Dec 2026 — hike &gt;25bp</td><td class="net">+0.6%</td></tr>
+      <tr><td>Nov 14, 2026</td><td class="time">00:35</td><td>Fed decision Mar 2027 — hike &gt;25bp</td><td class="net">+0.6%</td></tr>
+      <tr><td>Nov 14, 2026</td><td class="time">04:20</td><td>Fed decision Dec 2026 — hike &gt;25bp</td><td class="net">+0.7%</td></tr>
+      <tr><td>Nov 14, 2026</td><td class="time">06:50</td><td>Fed decision Dec 2026 — hike &gt;25bp</td><td class="net">+0.9%</td></tr>
+      <tr><td>Nov 14, 2026</td><td class="time">06:50</td><td>Fed decision Mar 2027 — hike &gt;25bp</td><td class="net">+0.6%</td></tr>
+      <tr><td>Nov 14, 2026</td><td class="time">12:50</td><td>Fed decision Mar 2027 — hike &gt;25bp</td><td class="net">+0.6%</td></tr>
+    </table>
+  </section>
+
+  <section id="traps">
+    <h2>Trap cases</h2>
+    <p class="sub">Looks like the same question. It isn't. From the rejected-pairs library (11 cases and counting):</p>
+    <div class="cards">
+      <div class="card trap">
+        <h3>Bitcoin ranges</h3>
+        <p>Polymarket lists <b>daily</b> ranges $2,000 wide. Kalshi lists <b>hourly</b> buckets $100 wide. Same underlying, completely different bets — no pair, no alert.</p>
+      </div>
+      <div class="card trap">
+        <h3>Fed +25bp, with a twist</h3>
+        <p>Polymarket rounds a non-standard rate change <i>up</i> to the nearest 25bp bracket. Kalshi has no equivalent clause. A 20bp hike can settle as different outcomes on the two venues — every Fed alert carries this warning.</p>
+      </div>
+      <div class="card trap">
+        <h3>Core CPI vs headline CPI</h3>
+        <p>One venue's "CPI" market tracks core inflation, the other's tracks headline. Similar titles, different numbers, different settlements. Rejected.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="standards">
+    <h2>Standards</h2>
+    <ul class="rules">
+      <li><b>Read-only.</b> PairWatch never trades, never holds funds, never asks for your keys or wallet.</li>
+      <li><b>Fees and depth included.</b> Spreads are computed net of both venues' taker fees, walking real order books at 500 shares — not best-price screenshots.</li>
+      <li><b>Rules before prices.</b> Every alert lists the settlement-rule differences that could still bite.</li>
+      <li><b>Free means free.</b> The Telegram channel is free, permanently. If a paid tier ever exists, it will add features — never paywall what is free today.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>FAQ</h2>
+    <div class="faq">
+      <div>
+        <h3>What does it cost?</h3>
+        <p>Nothing. Alerts are free on Telegram.</p>
+      </div>
+      <div>
+        <h3>Does PairWatch place trades?</h3>
+        <p>No. It is an intelligence tool only. You verify both books and trade — or don't — yourself.</p>
+      </div>
+      <div>
+        <h3>Which markets are covered?</h3>
+        <p>Verified pairs today concentrate in Fed decisions and NFL moneylines, where both venues genuinely list the same question. Coverage grows pair by pair, only after rule verification — never by bulk matching.</p>
+      </div>
+      <div>
+        <h3>Why so few alerts?</h3>
+        <p>By design. Most apparent spreads fail the fee, depth, or rule-difference test. A tool that alerts on everything alerts on nothing.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <div>© 2026 PairWatch · <a href="https://t.me/+XsNiI6ZGZI1iM2Ux">Telegram</a> · <a href="https://x.com/PairWatchAlerts">X</a></div>
+      <div>Read-only market intelligence. Not financial advice.</div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
